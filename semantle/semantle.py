@@ -68,6 +68,10 @@ class Semantle:
         print(f"{current_guess}: {similarity_of_current_guess}")
         self.update_game_state(current_guess)
 
+    def play_game(self):
+        while not self.endgame:
+            self.take_turn()
+    
     def check_guess(self, guess) -> float | None:
         """
         Calculates the similarity of the current guess if the guessed word
@@ -85,4 +89,10 @@ class Semantle:
         """
         Sets the game state to end if the user guesses the correct word.
         """
-        self.endgame = current_guess == self.word_of_the_day
+        
+        if current_guess == self.word_of_the_day:
+            self.endgame = True
+            print("You guessed the correct word!")
+        else:
+            self.endgame = False
+                    

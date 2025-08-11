@@ -6,10 +6,12 @@ This implementation uses the Google News Word2Vec model with 300-dimensional vec
 
 ## The Solver
 
-The original Semantle game provides information on the Word2Vec model used to power the game in its [FAQ](https://semantle.com/faq). With this information and the Google News Word2Vec model, it's possible to create a solver that filters down to the answer in 3 guesses or fewer. `solver.py` implements this approach by hard-coding three guesses ("elementary", "green", "volume") and generating the vector distance table between those words and every other word in the model vocabulary. Once the cosine similarity distances are given for those three words, the solver filters the tables down to only words with that same distance. The one word shared between those three tables is the solution.
+The original Semantle game provides information on the Word2Vec model used to power the game in its [FAQ](https://semantle.com/faq). With this information and the Google News Word2Vec model, it's possible to create a solver that efficiently finds the answer through an iterative filtering approach. `solver.py` implements this by starting with all potential target words as candidates, then makes a random guess from the candidates. After each guess, it takes the target cosine similarity that is returned and filters out any words from the potential target word list that doesn't have the same cosine similarity from the guess word (within a specified tolerance). This process repeats, progressively narrowing down the potential words until only the correct answer remains.
 
 ## Running the Application
 
 The project uses the pre-trained Google News Word2Vec model, so no custom dataset is required. The model will be automatically downloaded on first run.
 
-Set up your dependencies with `uv sync` and run the application with `uv run python main.py`.
+Set up your dependencies with `uv sync` and run the application with `uv run python main.py`. 
+
+You will be able to then choose either `play` mode (to play the game yourself) or `solve` mode (to watch the solver find the answer automatically).
